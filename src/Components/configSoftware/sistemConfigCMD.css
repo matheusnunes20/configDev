@@ -17,3 +17,27 @@
   cursor: pointer;
   font-family: 'Josefin Sans', sans-serif;
 }
+
+.buscar-config-button {
+  background: linear-gradient(135deg, #111827, #1f2937);
+  color: #ffffff;
+  padding: 14px 28px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.buscar-config-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(135deg, #1f2937, #374151);
+}
+
+.buscar-config-button:active {
+  transform: scale(0.97);
+}
+

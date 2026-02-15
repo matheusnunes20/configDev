@@ -18,8 +18,10 @@ const Versao = () => {
   };
 
   const irParaSistemaOperacional = () => {
+    localStorage.setItem("versao", selected);
     navigate("/so");
   };
+
 
   return (
     <div className="linguagem-container">

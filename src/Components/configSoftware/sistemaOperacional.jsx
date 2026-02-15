@@ -18,6 +18,7 @@ const SistemaOperacional = () => {
   };
 
   const irParaFinalizacao = () => {
+    localStorage.setItem("so", selected);
     navigate("/sistemConfig");
   };
 

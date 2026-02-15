@@ -18,6 +18,7 @@ const Linguagem = () => {
   };
 
   const irParaVersao = () => {
+    localStorage.setItem("linguagem", selected);
     navigate("/versao");
   };
 
