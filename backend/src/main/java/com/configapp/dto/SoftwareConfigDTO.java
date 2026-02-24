@@ -7,6 +7,12 @@ public class SoftwareConfigDTO {
     private String sistemaOperacional;
     private String downloadUrl;
     private String comandoValidacao;
+    private String homeVar;
+    private String binRelative;
+    private String installDir;
+    private String tipoArquivo;
+    private String validacaoCmd;
+
 
     public String getLinguagem() {
         return linguagem;
@@ -46,5 +52,45 @@ public class SoftwareConfigDTO {
 
     public void setComandoValidacao(String comandoValidacao) {
         this.comandoValidacao = comandoValidacao;
+    }
+
+    public String getBinRelative() {
+        return binRelative;
+    }
+
+    public void setBinRelative(String binRelative) {
+        this.binRelative = binRelative;
+    }
+
+    public String getHomeVar() {
+        return homeVar;
+    }
+
+    public void setHomeVar(String homeVar) {
+        this.homeVar = homeVar;
+    }
+
+    public String getInstallDir() {
+        return installDir;
+    }
+
+    public void setInstallDir(String installDir) {
+        this.installDir = installDir;
+    }
+
+    public String getTipoArquivo() {
+        return tipoArquivo;
+    }
+
+    public void setTipoArquivo(String tipoArquivo) {
+        this.tipoArquivo = tipoArquivo;
+    }
+
+    public String getValidacaoCmd() {
+        return validacaoCmd;
+    }
+
+    public void setValidacaoCmd(String validacaoCmd) {
+        this.validacaoCmd = validacaoCmd;
     }
 }

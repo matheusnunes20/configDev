@@ -44,6 +44,13 @@ public class SoftwareConfigService {
         dto.setDownloadUrl(entity.getDownloadUrl());
         dto.setComandoValidacao(entity.getComandoValidacao());
 
+        // 🔥 novos campos para script dinâmico
+        dto.setHomeVar(entity.getHomeVar());
+        dto.setBinRelative(entity.getBinRelative());
+        dto.setInstallDir(entity.getInstallDir());
+        dto.setTipoArquivo(entity.getTipoArquivo());
+        dto.setValidacaoCmd(entity.getValidacaoCmd());
+
         return dto;
     }
 }

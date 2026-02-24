@@ -18,7 +18,8 @@ const SistemaOperacionalCMD = () => {
         navigate("/inicio");
     };
 
-    const confirmar = async () => {
+    // 🔎 Buscar configuração no backend
+    const buscarConfiguracao = async () => {
         const linguagem = localStorage.getItem("linguagem");
         const versao = localStorage.getItem("versao");
         const so = localStorage.getItem("so");
@@ -34,7 +35,9 @@ const SistemaOperacionalCMD = () => {
             const response = await fetch(
                 `http://localhost:8080/api/config?linguagem=${encodeURIComponent(
                     linguagem
-                )}&versao=${encodeURIComponent(versao)}&so=${encodeURIComponent(so)}`
+                )}&versao=${encodeURIComponent(
+                    versao
+                )}&so=${encodeURIComponent(so)}`
             );
 
             if (!response.ok) {
@@ -54,6 +57,21 @@ const SistemaOperacionalCMD = () => {
         setLoading(false);
     };
 
+    // ⬇️ Baixar script automático
+    const baixarScript = () => {
+        const linguagem = localStorage.getItem("linguagem");
+        const versao = localStorage.getItem("versao");
+        const so = localStorage.getItem("so");
+
+        window.location.href =
+            `http://localhost:8080/api/script?linguagem=${encodeURIComponent(
+                linguagem
+            )}&versao=${encodeURIComponent(
+                versao
+            )}&so=${encodeURIComponent(so)}`;
+    };
+
+    // 📋 Copiar comando para área de transferência
     const copiarComando = () => {
         if (config?.comandoValidacao) {
             navigator.clipboard.writeText(config.comandoValidacao);
@@ -63,7 +81,8 @@ const SistemaOperacionalCMD = () => {
 
     return (
         <div className="linguagem-container">
-            {/* Menu */}
+
+            {/* MENU */}
             <button className="menu-toggle" onClick={toggleMenu}>
                 <FaBars />
             </button>
@@ -76,51 +95,61 @@ const SistemaOperacionalCMD = () => {
                 </div>
             )}
 
-            {/* Header */}
+            {/* HEADER */}
             <div className="header">
                 <span className="username">Mateus Nunes</span>
                 <img src={perfil} alt="Perfil" className="avatar" />
             </div>
 
-            {/* Card */}
+            {/* CARD PRINCIPAL */}
             <div className="linguagem-card">
                 <div className="card-title">
                     <h2>Configuração da Máquina</h2>
                 </div>
 
+                {/* BOTÃO INICIAL */}
                 {!config && (
-                    <button className="buscar-config-button" onClick={confirmar}>
-                        🚀 Buscar Configuração
+                    <button
+                        onClick={buscarConfiguracao}
+                        className="buscar-config-button"
+                        disabled={loading}
+                    >
+                        {loading ? "Buscando..." : "🔍 Buscar Configuração"}
                     </button>
-
                 )}
 
+                {/* RESULTADO */}
                 {config && (
                     <div className="resultado-config">
+
                         <p><strong>Linguagem:</strong> {config.linguagem}</p>
                         <p><strong>Versão:</strong> {config.versao}</p>
                         <p><strong>Sistema:</strong> {config.sistemaOperacional}</p>
 
                         <div className="download-section">
-                            <a
-                                href={config.downloadUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <button
                                 className="download-button"
+                                onClick={baixarScript}
                             >
-                                <FaDownload /> Baixar Instalador
-                            </a>
+                                <FaDownload /> Baixar e Configurar
+                            </button>
                         </div>
 
                         <div className="cmd-section">
                             <p><strong>Comando de Validação:</strong></p>
+
                             <div className="cmd-box">
                                 {config.comandoValidacao}
                             </div>
-                            <button className="copy-button" onClick={copiarComando}>
+
+                            <button
+                                className="copy-button"
+                                onClick={copiarComando}
+                            >
                                 <FaCopy /> Copiar Comando
                             </button>
                         </div>
+
                     </div>
                 )}
             </div>

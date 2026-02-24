@@ -18,7 +18,7 @@ const App = () => {
         <Route path="/linguagem" element={<Linguagem />} />
         <Route path="/versao" element={<Versao />} />
         <Route path="/so" element={<SistemaOperacional />} />
-        <Route path="/sistemConfig" element={<SistemaOperacionalCMD />} />
+        <Route path="/configuracao-final" element={<SistemaOperacionalCMD />} />
       </Routes>
     </Router>
   );
