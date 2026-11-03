@@ -1,13 +1,12 @@
-databases:
-  - name: configapp-mn-db
-    plan: free
-    databaseName: configapp
-    user: configapp
-
-# O backend (Java/Spring Boot) NÃO está neste blueprint: o Render exige
-# runtime: docker para apps Java, e serviços Docker não são elegíveis para o
-# plano gratuito. Para a demonstração, o backend roda localmente e é exposto
-# publicamente via um túnel (ngrok), conectado a este mesmo banco Postgres.
+# Este blueprint cobre só o frontend. Backend e banco NÃO estão aqui porque
+# o Render não oferece nenhum dos dois de graça de forma permanente:
+#   - Backend Java exige runtime: docker, e serviços Docker nunca entram no
+#     plano free do Render (só runtimes nativos: node/python/ruby/go/...).
+#   - O Postgres free do Render expira 30 dias após a criação e é deletado
+#     (com os dados) após 14 dias de carência sem upgrade pago.
+# Por isso o backend está hospedado no Koyeb (free, permanente, suporta
+# Docker) e o banco no Neon (Postgres free, permanente, sem expiração).
+# Veja as instruções de deploy desses dois na documentação do projeto.
 
 services:
   - type: web
