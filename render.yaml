@@ -4,49 +4,20 @@ databases:
     databaseName: configapp
     user: configapp
 
-services:
-  - type: web
-    name: configapp-mn-api
-    runtime: docker
-    plan: free
-    rootDir: backend
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
-    envVars:
-      - key: DB_HOST
-        fromDatabase:
-          name: configapp-mn-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: configapp-mn-db
-          property: port
-      - key: DB_NAME
-        fromDatabase:
-          name: configapp-mn-db
-          property: database
-      - key: DB_USERNAME
-        fromDatabase:
-          name: configapp-mn-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: configapp-mn-db
-          property: password
-      - key: API_KEY
-        generateValue: true
-      - key: CORS_ALLOWED_ORIGINS
-        value: https://configapp-mn-app.onrender.com
+# O backend (Java/Spring Boot) NÃO está neste blueprint: o Render exige
+# runtime: docker para apps Java, e serviços Docker não são elegíveis para o
+# plano gratuito. Para a demonstração, o backend roda localmente e é exposto
+# publicamente via um túnel (ngrok), conectado a este mesmo banco Postgres.
 
+services:
   - type: web
     name: configapp-mn-app
     runtime: static
-    plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://configapp-mn-api.onrender.com/api
+        sync: false
     routes:
       - type: rewrite
         source: /*
