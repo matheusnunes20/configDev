@@ -1,0 +1,44 @@
+.step-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+}
+
+.step-progress-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.step-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  flex: none;
+}
+
+.step-progress-item.is-done .step-progress-dot {
+  background: var(--accent);
+}
+
+.step-progress-item.is-done {
+  color: var(--ink-soft);
+}
+
+.step-progress-item.is-current .step-progress-dot {
+  background: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-bg);
+}
+
+.step-progress-item.is-current {
+  color: var(--ink);
+  font-weight: 600;
+}

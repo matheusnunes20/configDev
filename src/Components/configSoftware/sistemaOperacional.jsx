@@ -1,70 +1,36 @@
-import React, { useState } from "react";
-import { FaCheck, FaBars } from "react-icons/fa";
-import perfil from "../../assets/avatar.jpg";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Linguagem.css";
+import PageShell from "../Layout/PageShell";
+import WizardStep from "../Wizard/WizardStep";
+import { OPERATING_SYSTEMS, WIZARD_STEPS } from "../../data/wizardOptions";
 
 const SistemaOperacional = () => {
   const [selected, setSelected] = useState("Windows");
-  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const irParaInicio = () => {
-    navigate("/inicio");
-  };
-
-  const irParaFinalizacao = () => {
+  const confirmar = () => {
     localStorage.setItem("so", selected);
     navigate("/configuracao-final");
   };
 
   return (
-    <div className="linguagem-container">
-      {/* Botão de menu hambúrguer */}
-      <button className="menu-toggle" onClick={toggleMenu}>
-        <FaBars />
-      </button>
-
-      {/* Sidebar do menu */}
-      {menuOpen && (
-        <div className="linguagem-sidebar">
-          <button className="sidebar-button" onClick={irParaInicio}>
-            Início
-          </button>
-        </div>
-      )}
-
-      {/* Cabeçalho */}
-      <div className="header">
-        <span className="username">Mateus Nunes</span>
-        <img src={perfil} alt="Perfil" className="avatar" />
-      </div>
-
-      {/* Card central */}
-      <div className="linguagem-card">
-        <div className="card-title">
-          <h2>Qual o sistema operacional<br /> será utilizada ?</h2>
-        </div>
-
-        <select
-          value={selected}
-          onChange={(e) => setSelected(e.target.value)}
-          className="linguagem-select"
-        >
-          <option value="Windows">Windows</option>
-          <option value="Linux">Linux</option>
-          <option value="IOS">IOS</option>
-        </select>
-
-        <button className="confirm-button" onClick={irParaFinalizacao}>
-          <FaCheck />
-        </button>
-      </div>
-    </div>
+    <PageShell sidebarItems={[{ label: "Início", onClick: () => navigate("/inicio") }]}>
+      <WizardStep
+        title={
+          <>
+            Qual sistema operacional
+            <br />
+            será utilizado?
+          </>
+        }
+        options={OPERATING_SYSTEMS}
+        selected={selected}
+        onSelect={setSelected}
+        onConfirm={confirmar}
+        steps={WIZARD_STEPS}
+        currentIndex={2}
+      />
+    </PageShell>
   );
 };
 

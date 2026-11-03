@@ -1,53 +1,27 @@
-import React, { useState } from "react";
-import { FaLaptopCode, FaCode, FaBars } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // IMPORTANTE
-import "./inicio.css";
-import perfil from "../../assets/avatar.jpg";
+import { useNavigate } from "react-router-dom";
+import { FaLaptopCode } from "react-icons/fa";
+import PageShell from "../Layout/PageShell";
+import "./Inicio.css";
 
-const HomePage = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const navigate = useNavigate(); // HOOK para navegação
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
-  const irParaLinguagem = () => {
-    navigate("/linguagem");
-  };
+const Inicio = () => {
+  const navigate = useNavigate();
 
   return (
-    <div className="inicio-container">
-      {sidebarOpen && (
-        <div className="sidebar">
-          <button className="sidebar-button" onClick={irParaLinguagem}>
-            <FaLaptopCode className="icon" />
-            <span>Configuração da IDE</span>
-          </button>
-          <button className="sidebar-button">
-            <FaCode className="icon" />
-            <span>Configuração da linguagem</span>
-          </button>
-        </div>
-      )}
-
-      <div className="main-content">
-        <button className="menu-toggle" onClick={toggleSidebar}>
-          <FaBars />
+    <PageShell
+      sidebarItems={[
+        { label: "Iniciar configuração", icon: FaLaptopCode, onClick: () => navigate("/linguagem") },
+      ]}
+    >
+      <div className="welcome">
+        <span className="welcome-eyebrow">ConfigApp</span>
+        <h1>Bem-vindo</h1>
+        <p>Vamos configurar seu ambiente de desenvolvimento em poucos passos.</p>
+        <button type="button" className="welcome-cta" onClick={() => navigate("/linguagem")}>
+          Iniciar configuração
         </button>
-
-        <div className="header">
-          <span className="username">Mateus Nunes</span>
-          <img src={perfil} alt="Perfil" className="avatar" />
-        </div>
-
-        <div className="welcome-message">
-          <h1>BEM-VINDO</h1>
-          <p>AO CONFIGAPP</p>
-        </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 
-export default HomePage;
+export default Inicio;

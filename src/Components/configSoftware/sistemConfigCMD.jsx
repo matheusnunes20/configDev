@@ -1,160 +1,128 @@
-import React, { useState } from "react";
-import { FaBars, FaDownload, FaCopy } from "react-icons/fa";
-import perfil from "../../assets/avatar.jpg";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaDownload, FaCopy, FaCheck } from "react-icons/fa";
+import PageShell from "../Layout/PageShell";
+import StepProgress from "../Wizard/StepProgress";
+import { WIZARD_STEPS } from "../../data/wizardOptions";
 import "./sistemConfigCMD.css";
 
+const API_BASE = "http://localhost:8080/api";
+
 const SistemaOperacionalCMD = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [config, setConfig] = useState(null);
-    const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [config, setConfig] = useState(null);
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
+  const navigate = useNavigate();
 
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
-    };
+  const buscarConfiguracao = async () => {
+    const linguagem = localStorage.getItem("linguagem");
+    const versao = localStorage.getItem("versao");
+    const so = localStorage.getItem("so");
 
-    const irParaInicio = () => {
-        navigate("/inicio");
-    };
+    if (!linguagem || !versao || !so) {
+      setError("Dados incompletos. Volte e refaça a configuração.");
+      return;
+    }
 
-    // 🔎 Buscar configuração no backend
-    const buscarConfiguracao = async () => {
-        const linguagem = localStorage.getItem("linguagem");
-        const versao = localStorage.getItem("versao");
-        const so = localStorage.getItem("so");
+    setLoading(true);
+    setError("");
 
-        if (!linguagem || !versao || !so) {
-            alert("Dados incompletos.");
-            return;
-        }
+    try {
+      const response = await fetch(
+        `${API_BASE}/config?linguagem=${encodeURIComponent(linguagem)}&versao=${encodeURIComponent(
+          versao
+        )}&so=${encodeURIComponent(so)}`
+      );
 
-        setLoading(true);
-
-        try {
-            const response = await fetch(
-                `http://localhost:8080/api/config?linguagem=${encodeURIComponent(
-                    linguagem
-                )}&versao=${encodeURIComponent(
-                    versao
-                )}&so=${encodeURIComponent(so)}`
-            );
-
-            if (!response.ok) {
-                alert("Configuração não encontrada.");
-                setLoading(false);
-                return;
-            }
-
-            const data = await response.json();
-            setConfig(data);
-
-        } catch (error) {
-            console.error("Erro:", error);
-            alert("Erro ao conectar com servidor.");
-        }
-
+      if (!response.ok) {
+        setError("Nenhuma configuração encontrada para essa combinação.");
         setLoading(false);
-    };
+        return;
+      }
 
-    // ⬇️ Baixar script automático
-    const baixarScript = () => {
-        const linguagem = localStorage.getItem("linguagem");
-        const versao = localStorage.getItem("versao");
-        const so = localStorage.getItem("so");
+      setConfig(await response.json());
+    } catch {
+      setError("Não foi possível conectar ao servidor.");
+    }
 
-        window.location.href =
-            `http://localhost:8080/api/script?linguagem=${encodeURIComponent(
-                linguagem
-            )}&versao=${encodeURIComponent(
-                versao
-            )}&so=${encodeURIComponent(so)}`;
-    };
+    setLoading(false);
+  };
 
-    // 📋 Copiar comando para área de transferência
-    const copiarComando = () => {
-        if (config?.comandoValidacao) {
-            navigator.clipboard.writeText(config.comandoValidacao);
-            alert("Comando copiado!");
-        }
-    };
+  const baixarScript = () => {
+    const linguagem = localStorage.getItem("linguagem");
+    const versao = localStorage.getItem("versao");
+    const so = localStorage.getItem("so");
 
-    return (
-        <div className="linguagem-container">
+    window.location.href = `${API_BASE}/script?linguagem=${encodeURIComponent(
+      linguagem
+    )}&versao=${encodeURIComponent(versao)}&so=${encodeURIComponent(so)}`;
+  };
 
-            {/* MENU */}
-            <button className="menu-toggle" onClick={toggleMenu}>
-                <FaBars />
-            </button>
+  const copiarComando = () => {
+    if (!config?.comandoValidacao) return;
+    navigator.clipboard.writeText(config.comandoValidacao);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
+  };
 
-            {menuOpen && (
-                <div className="linguagem-sidebar">
-                    <button className="sidebar-button" onClick={irParaInicio}>
-                        Início
-                    </button>
+  return (
+    <PageShell sidebarItems={[{ label: "Início", onClick: () => navigate("/inicio") }]}>
+      <div className="wizard-slot">
+        <div className="wizard-card result-card">
+          <StepProgress steps={WIZARD_STEPS} currentIndex={3} />
+          <h2 className="wizard-title">Configuração da máquina</h2>
+
+          {!config && (
+            <>
+              <button
+                type="button"
+                className="result-search-button"
+                onClick={buscarConfiguracao}
+                disabled={loading}
+              >
+                {loading ? "Buscando..." : "Buscar configuração"}
+              </button>
+              {error && <p className="result-error">{error}</p>}
+            </>
+          )}
+
+          {config && (
+            <div className="result-details">
+              <dl className="result-summary">
+                <div>
+                  <dt>Linguagem</dt>
+                  <dd>{config.linguagem}</dd>
                 </div>
-            )}
-
-            {/* HEADER */}
-            <div className="header">
-                <span className="username">Mateus Nunes</span>
-                <img src={perfil} alt="Perfil" className="avatar" />
-            </div>
-
-            {/* CARD PRINCIPAL */}
-            <div className="linguagem-card">
-                <div className="card-title">
-                    <h2>Configuração da Máquina</h2>
+                <div>
+                  <dt>Versão</dt>
+                  <dd>{config.versao}</dd>
                 </div>
+                <div>
+                  <dt>Sistema</dt>
+                  <dd>{config.sistemaOperacional}</dd>
+                </div>
+              </dl>
 
-                {/* BOTÃO INICIAL */}
-                {!config && (
-                    <button
-                        onClick={buscarConfiguracao}
-                        className="buscar-config-button"
-                        disabled={loading}
-                    >
-                        {loading ? "Buscando..." : "🔍 Buscar Configuração"}
-                    </button>
-                )}
+              <button type="button" className="result-download-button" onClick={baixarScript}>
+                <FaDownload /> Baixar e configurar
+              </button>
 
-                {/* RESULTADO */}
-                {config && (
-                    <div className="resultado-config">
-
-                        <p><strong>Linguagem:</strong> {config.linguagem}</p>
-                        <p><strong>Versão:</strong> {config.versao}</p>
-                        <p><strong>Sistema:</strong> {config.sistemaOperacional}</p>
-
-                        <div className="download-section">
-                            <button
-                                className="download-button"
-                                onClick={baixarScript}
-                            >
-                                <FaDownload /> Baixar e Configurar
-                            </button>
-                        </div>
-
-                        <div className="cmd-section">
-                            <p><strong>Comando de Validação:</strong></p>
-
-                            <div className="cmd-box">
-                                {config.comandoValidacao}
-                            </div>
-
-                            <button
-                                className="copy-button"
-                                onClick={copiarComando}
-                            >
-                                <FaCopy /> Copiar Comando
-                            </button>
-                        </div>
-
-                    </div>
-                )}
+              <div className="result-cmd">
+                <span className="result-cmd-label">Comando de validação</span>
+                <div className="result-cmd-row">
+                  <code>{config.comandoValidacao}</code>
+                  <button type="button" className="result-copy-button" onClick={copiarComando}>
+                    {copied ? <FaCheck /> : <FaCopy />}
+                  </button>
+                </div>
+              </div>
             </div>
+          )}
         </div>
-    );
+      </div>
+    </PageShell>
+  );
 };
 
 export default SistemaOperacionalCMD;

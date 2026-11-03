@@ -1,6 +1,6 @@
 import { FaUser, FaLock } from "react-icons/fa";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./Login.css";
 
@@ -11,57 +11,47 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert("Enviando os dados: " + username + " - " + password);
     navigate("/inicio");
   };
 
   return (
-    <div className="login-container">
+    <div className="login-page">
       <div className="login-card">
-        <div className="header-banner">
-          <img src={logo} alt="logo configApp" className="logo" />
-          <div className="app-name">CONFIGAPP</div>
-          <div className="app-slogan">Porque seu tempo vale mais.</div>
+        <div className="login-brand">
+          <img src={logo} alt="Logo ConfigApp" className="login-logo" />
+          <div className="login-app-name">ConfigApp</div>
+          <div className="login-slogan">Porque seu tempo vale mais.</div>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-field">
+        <form className="login-form" onSubmit={handleSubmit}>
+          <label className="login-field">
+            <FaUser className="login-field-icon" />
             <input
               type="text"
               placeholder="Usuário"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <FaUser className="icon" />
-          </div>
+          </label>
 
-          <div className="input-field">
+          <label className="login-field">
+            <FaLock className="login-field-icon" />
             <input
               type="password"
               placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <FaLock className="icon" />
-          </div>
+          </label>
 
-          <div className="recall-forget">
-            <label htmlFor="rememberMe" className="checkBox-label">
-              <input type="checkbox" id="rememberMe" />
-              Lembre de mim
-            </label>
-            <Link to="/recuperar-senha">Esqueceu a senha?</Link>
-          </div>
+          <label className="login-remember">
+            <input type="checkbox" />
+            Lembrar de mim
+          </label>
 
           <button type="submit" disabled={!username || !password}>
             Entrar
           </button>
-
-          <div className="signup-link">
-            <p>
-              Não tem conta? <Link to="/registrar">Registrar</Link>
-            </p>
-          </div>
         </form>
       </div>
     </div>

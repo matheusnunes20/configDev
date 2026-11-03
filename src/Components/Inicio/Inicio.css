@@ -1,109 +1,47 @@
-/* Container principal */
-.inicio-container {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-/* Botão de menu hambúrguer */
-.menu-toggle {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  z-index: 1100;
-  background: none;
-  border: none;
-  font-size: 26px;
-  color: white;
-  cursor: pointer;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  background-color: #fff;
-  border-right: 1px solid #ddd;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  z-index: 1000;
-}
-
-.sidebar-button {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #333;
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.sidebar-button:hover {
-  color: #007bff;
-}
-
-.icon {
-  font-size: 20px;
-}
-
-/* Área principal */
-.main-content {
+.welcome {
   flex: 1;
-  position: relative;
-  background: linear-gradient(to bottom right, #a8e6cf, #81ecec, #74b9ff);
-  padding: 24px;
-}
-
-/* Cabeçalho */
-.header {
-  position: absolute;
-  top: 16px;
-  right: 24px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.username {
-  color: white;
-  font-size: 18px;
-}
-
-.avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid white;
-  object-fit: cover;
-}
-
-/* Mensagem central */
-.welcome-message {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  gap: 14px;
+  max-width: 480px;
 }
 
-.welcome-message h1 {
-  font-size: 48px;
-  font-weight: bold;
-  color: white;
+.welcome-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.welcome h1 {
+  font-size: clamp(30px, 4vw, 42px);
   margin: 0;
+  color: var(--ink);
 }
 
-.welcome-message p {
-  font-size: 20px;
-  color: white;
-  margin-top: 8px;
+.welcome p {
+  color: var(--ink-soft);
+  font-size: 16px;
+  margin: 0;
+  max-width: 40ch;
+}
+
+.welcome-cta {
+  margin-top: 10px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.welcome-cta:hover {
+  opacity: 0.9;
 }

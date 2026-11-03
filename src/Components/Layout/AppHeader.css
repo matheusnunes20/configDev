@@ -1,0 +1,19 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-header-name {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+
+.app-header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+}

@@ -1,0 +1,88 @@
+:root {
+  --bg: #f4f6f5;
+  --surface: #ffffff;
+  --surface-sunken: #ecf0ee;
+  --ink: #121a18;
+  --ink-soft: #4b5a57;
+  --ink-faint: #7c8b87;
+  --accent: #2f6f64;
+  --accent-ink: #1f4d45;
+  --accent-contrast: #ffffff;
+  --amber: #b8742e;
+  --amber-bg: #f3e3d1;
+  --line: #d8ded9;
+  --danger: #a8503f;
+
+  --sidebar-bg: #121a18;
+  --sidebar-ink: #e7eeeb;
+  --sidebar-ink-soft: #9aaca6;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 1px 2px rgba(18, 26, 24, 0.08);
+  --shadow-md: 0 12px 32px rgba(18, 26, 24, 0.14);
+
+  --font-sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, "Roboto Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1413;
+    --surface: #141c1a;
+    --surface-sunken: #0f1615;
+    --ink: #e7eeeb;
+    --ink-soft: #9aaca6;
+    --ink-faint: #637572;
+    --accent: #5fb3a3;
+    --accent-ink: #8fd0c3;
+    --accent-contrast: #0e1413;
+    --amber: #d99953;
+    --amber-bg: #3a2d1c;
+    --line: #263129;
+    --danger: #d97c68;
+
+    --sidebar-bg: #0a0f0e;
+    --sidebar-ink: #e7eeeb;
+    --sidebar-ink-soft: #829690;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0e1413;
+  --surface: #141c1a;
+  --surface-sunken: #0f1615;
+  --ink: #e7eeeb;
+  --ink-soft: #9aaca6;
+  --ink-faint: #637572;
+  --accent: #5fb3a3;
+  --accent-ink: #8fd0c3;
+  --accent-contrast: #0e1413;
+  --amber: #d99953;
+  --amber-bg: #3a2d1c;
+  --line: #263129;
+  --danger: #d97c68;
+  --sidebar-bg: #0a0f0e;
+  --sidebar-ink: #e7eeeb;
+  --sidebar-ink-soft: #829690;
+}
+
+:root[data-theme="light"] {
+  --bg: #f4f6f5;
+  --surface: #ffffff;
+  --surface-sunken: #ecf0ee;
+  --ink: #121a18;
+  --ink-soft: #4b5a57;
+  --ink-faint: #7c8b87;
+  --accent: #2f6f64;
+  --accent-ink: #1f4d45;
+  --accent-contrast: #ffffff;
+  --amber: #b8742e;
+  --amber-bg: #f3e3d1;
+  --line: #d8ded9;
+  --danger: #a8503f;
+  --sidebar-bg: #121a18;
+  --sidebar-ink: #e7eeeb;
+  --sidebar-ink-soft: #9aaca6;
+}
