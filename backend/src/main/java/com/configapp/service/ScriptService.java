@@ -3,6 +3,7 @@ package com.configapp.service;
 import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 
+import com.configapp.exception.ConfiguracaoNaoEncontradaException;
 import com.configapp.model.SoftwareConfig;
 import com.configapp.repository.SoftwareConfigRepository;
 
@@ -21,7 +22,7 @@ public class ScriptService {
                 .findByLinguagemAndVersaoAndSistemaOperacional(
                         linguagem, versao, so
                 )
-                .orElseThrow(() -> new RuntimeException("Configuração não encontrada"));
+                .orElseThrow(() -> new ConfiguracaoNaoEncontradaException("Configuração não encontrada"));
 
         String installPath = "C:\\configapp\\" + linguagem + "\\" + versao;
 
@@ -32,9 +33,10 @@ public class ScriptService {
 
     private String montarScript(SoftwareConfig config, String installPath) {
 
-        String homeVar = config.getHomeVar() != null ? config.getHomeVar() : "JAVA_HOME";
-        String binRelative = config.getBinRelative() != null ? config.getBinRelative() : "bin";
-        String validacao = config.getValidacaoCmd() != null ? config.getValidacaoCmd() : "java -version";
+        String homeVar = sanitizeLine(config.getHomeVar(), "JAVA_HOME");
+        String binRelative = sanitizeLine(config.getBinRelative(), "bin");
+        String validacao = sanitizeLine(config.getValidacaoCmd(), "java -version");
+        String downloadUrl = sanitizeLine(config.getDownloadUrl(), "").replace("'", "''");
 
         return """
 @echo off
@@ -99,10 +101,15 @@ pause
 exit /b
 """.formatted(
                 installPath,
-                config.getDownloadUrl(),
+                downloadUrl,
                 homeVar,
                 binRelative,
                 validacao
         );
+    }
+
+    private String sanitizeLine(String value, String fallback) {
+        String effective = (value != null && !value.isBlank()) ? value : fallback;
+        return effective.replace("\r", "").replace("\n", "");
     }
 }
