@@ -10,7 +10,7 @@ WORKDIR /app
 COPY --from=build /app/target/configapp-backend-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 
-# Flags de memória pensadas pra caber na instância free do Koyeb (512MB total):
+# Flags de memória pensadas pra caber no plano free do Render (512MB total):
 # limita o heap a 70% da memória do container e usa SerialGC (menor overhead
 # que o G1 padrão em heaps pequenos), evitando que o processo seja OOM-killed.
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=70.0", "-XX:+UseSerialGC", "-jar", "app.jar"]
